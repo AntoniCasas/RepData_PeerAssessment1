@@ -167,59 +167,23 @@ data4[data4[,"date"] != "weekend" ,"date"] <- "weekday"
 ```
 
 
-Now we want to create a new dataframe with the sum of steps per day, differentiating between weekday or weekend. 
+Now we want to create a new dataframe with the mean of steps per day, differentiating between weekday or weekend. 
 
 
 ```r
-dt4<-data.table(data4)[,sum(steps),by=c("interval","date")]
+dt4<-data.table(data4)[,mean(steps),by=c("interval","date")]
 ```
 
 
-Before doing a panel plot we want to check what the maximum values are in both cases, so we can set the same ylab limit values (otherwise it's not easy to compare the two plots):
+Finally we can make a panel plot containing a time series plot of the 5-minutes interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). For that we are going to use lattice in order to replicate the type of figure expected for this assignment.
 
 
 ```r
-weekday <- subset(dt4,date=="weekday")
-weekend <- subset(dt4,date=="weekend")
-summary(weekday)
+library(lattice)
+xyplot(V1 ~ interval | date, data = dt4, type = "a", layout = c(1,2), ylab = 'number of steps')
 ```
 
-```
-##     interval          date                 V1         
-##  Min.   :   0.0   Length:288         Min.   :    0.0  
-##  1st Qu.: 588.8   Class :character   1st Qu.:  101.1  
-##  Median :1177.5   Mode  :character   Median : 1161.1  
-##  Mean   :1177.5                      Mean   : 1602.5  
-##  3rd Qu.:1766.2                      3rd Qu.: 2288.4  
-##  Max.   :2355.0                      Max.   :10367.0
-```
-
-```r
-summary(weekend)
-```
-
-```
-##     interval          date                 V1         
-##  Min.   :   0.0   Length:288         Min.   :   0.00  
-##  1st Qu.: 588.8   Class :character   1st Qu.:  19.86  
-##  Median :1177.5   Mode  :character   Median : 517.43  
-##  Mean   :1177.5                      Mean   : 677.86  
-##  3rd Qu.:1766.2                      3rd Qu.:1194.46  
-##  Max.   :2355.0                      Max.   :2666.23
-```
+![](PA1_template_files/figure-html/unnamed-chunk-14-1.png) 
 
 
-Now that we found that the maximum value is higher than 10,000 steps, we can make a panel plot containing a time series plot of the 5-minutes interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). Note that both y-axis use the same limits.
-
-
-```r
-par(mfrow = c(2,1),oma = c(5,4,0,0),mar = c(0,0,2,2)+2)
-plot(subset(dt4,date=="weekday",select=c(interval,V1)),type="l",main="Average number of steps per 5-min interval\n\nWeekday",ylim=c(0,10500),xlab="",col='blue',ylab="number of steps")
-plot(subset(dt4,date=="weekend",select=c(interval,V1)),type="l",main="Weekend",ylim=c(0,10500),col='blue',ylab="number of steps")
-title(main='Average number of steps per 5-min interval',xlab='interval',ylab='number of steps',outer=TRUE,line=1)
-```
-
-![](PA1_template_files/figure-html/unnamed-chunk-15-1.png) 
-
-
-By comparing both plots we can easily determine that this individual is much more active during the week (from Monday to Friday) than during the weekend. 
+By comparing both plots we can determine that this individual is more active during the weekend than during the rest of the week, although there's some intervals in the morning where the average number of steps from Monday to Friday are slightly higher than those in the weekend.
