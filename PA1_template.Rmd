@@ -5,6 +5,7 @@ output:
     keep_md: true
 ---
 
+<<<<<<< HEAD
 Activity monitoring data assignment
 ===================================
 
@@ -144,3 +145,23 @@ title(main='Average number of steps per 5-min interval',xlab='interval',ylab='nu
 
 
 By comparing both plots we can easily determine that this individual is much more active during the week (from Monday to Friday) than during the weekend. 
+=======
+
+## Loading and preprocessing the data
+
+
+
+## What is mean total number of steps taken per day?
+
+
+
+## What is the average daily activity pattern?
+
+
+
+## Imputing missing values
+
+
+
+## Are there differences in activity patterns between weekdays and weekends?
+>>>>>>> 80edf39c3bb508fee88e3394542f967dd3fd3270
